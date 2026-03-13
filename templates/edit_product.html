@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Edit Product</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+<style>
+
+body{
+background:#050505;
+color:white;
+font-family:Poppins;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+/* EDIT CARD */
+
+.edit-box{
+
+width:400px;
+
+background:#0f0f0f;
+
+padding:35px;
+
+border-radius:12px;
+
+border:1px solid #222;
+
+box-shadow:0 0 25px rgba(0,0,0,0.4);
+
+animation:fadeIn 0.5s ease;
+
+}
+
+/* TITLE */
+
+.edit-box h2{
+
+margin-bottom:25px;
+text-align:center;
+
+}
+
+/* INPUT */
+
+.edit-box input{
+
+width:100%;
+
+padding:12px;
+
+margin-bottom:15px;
+
+border:none;
+
+border-radius:8px;
+
+background:#111;
+
+color:white;
+
+outline:none;
+
+transition:0.3s;
+
+}
+
+.edit-box input:focus{
+
+box-shadow:0 0 10px #00e5ff;
+
+}
+
+/* BUTTON */
+
+.edit-box button{
+
+width:100%;
+
+padding:12px;
+
+background:#00e5ff;
+
+border:none;
+
+border-radius:8px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:0.3s;
+
+}
+
+.edit-box button:hover{
+
+transform:scale(1.05);
+
+box-shadow:0 0 15px #00e5ff;
+
+}
+
+/* ANIMATION */
+
+@keyframes fadeIn{
+
+from{
+opacity:0;
+transform:translateY(20px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="edit-box">
+
+<h2>Edit Product</h2>
+
+<form action="/update/{{id}}" method="post">
+
+<input type="text" name="name" value="{{product.name}}" placeholder="Product Name" required>
+
+<input type="number" name="price" value="{{product.price}}" placeholder="Price" required>
+
+<input type="number" name="quantity" value="{{product.quantity}}" placeholder="Quantity" required>
+
+<button>Update Product</button>
+
+</form>
+
+</div>
+
+</body>
+</html>

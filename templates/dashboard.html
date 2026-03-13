@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>DASHBOARD</title>
+
+<link rel="stylesheet" href="/static/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+background:#050505;
+color:white;
+font-family:Poppins;
+}
+
+/* MAIN */
+
+.main{
+margin-left:220px;
+padding:40px;
+}
+
+/* CARDS */
+
+.cards{
+display:flex;
+gap:30px;
+margin-bottom:40px;
+}
+
+.card{
+flex:1;
+padding:25px;
+border-radius:12px;
+background:#0f0f0f;
+border:1px solid #222;
+text-align:center;
+transition:0.4s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 0 15px #00e5ff30;
+}
+
+.card h3{
+margin-bottom:10px;
+color:#aaa;
+}
+
+.card p{
+font-size:26px;
+font-weight:bold;
+}
+
+/* CHART */
+
+.chart-box{
+background:#0f0f0f;
+padding:30px;
+border-radius:12px;
+border:1px solid #222;
+width:500px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h2 class="logo">RETAIL POS</h2>
+
+<a href="/dashboard">Dashboard</a>
+<a href="/add">Add Product</a>
+<a href="/view">Products</a>
+<a href="/billing">Billing</a>
+<a href="/report">Sales Report</a>
+
+</div>
+
+
+<div class="main">
+
+<h1>Sales Dashboard</h1>
+
+<div class="cards">
+
+<div class="card">
+<h3>Total Products</h3>
+<p>{{ total_products }}</p>
+</div>
+
+<div class="card">
+<h3>Total Stock</h3>
+<p>{{ total_quantity }}</p>
+</div>
+
+<div class="card">
+<h3>Inventory Value</h3>
+<p>₹ {{ total_value }}</p>
+</div>
+
+</div>
+
+<div class="chart-box">
+
+<canvas id="salesChart"></canvas>
+<div class="stock-card">
+
+<h2>Live Stock</h2>
+
+<table class="stock-table">
+
+<tr>
+<th>Product</th>
+<th>Price</th>
+<th>Stock</th>
+<th>Status</th>
+</tr>
+
+{% for p in products %}
+
+<tr>
+
+<td>{{p.name}}</td>
+
+<td>₹ {{p.price}}</td>
+
+<td>{{p.quantity}}</td>
+
+<td>
+
+{% if p.quantity|int < 10 %}
+
+<span class="low">Low Stock</span>
+
+{% else %}
+
+<span class="ok">Available</span>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+{% if low_stock %}
+
+<div class="alert-box">
+
+⚠ Low Stock Alert!
+
+<ul>
+
+{% for p in low_stock %}
+
+<li>{{p.name}} - Only {{p.quantity}} left</li>
+
+{% endfor %}
+
+</ul>
+
+</div>
+
+{% endif %}
+</div>
+</div>
+
+</div>
+
+<script>
+
+const productNames = {{ names | tojson }};
+const productQty = {{ qty | tojson }};
+
+const ctx = document.getElementById('salesChart');
+
+new Chart(ctx,{
+type:'bar',
+
+data:{
+labels:productNames,
+datasets:[{
+label:'Stock',
+data:productQty,
+backgroundColor:'#00e5ff'
+}]
+},
+
+options:{
+plugins:{legend:{display:false}}
+}
+
+})
+
+</script>
+
+</body>
+</html>

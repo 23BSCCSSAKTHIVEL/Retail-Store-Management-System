@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Products</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h2 class="logo">SuperPOS</h2>
+
+<a href="/dashboard">Dashboard</a>
+<a href="/add">Add Product</a>
+<a href="/view">Products</a>
+<a href="/billing">Billing</a>
+<a href="/report">Sales Report</a>
+
+</div>
+
+
+<div class="main">
+
+<h1>Products</h1>
+
+<div class="products">
+
+{% for p in products %}
+
+<div class="product-card">
+
+<img src="/static/images/{{p.image}}">
+
+<h3>{{p.name}}</h3>
+
+<p>₹ {{p.price}}</p>
+
+<p>Stock: {{p.quantity}}</p>
+
+<a href="/edit/{{loop.index0}}">Edit</a>
+<a href="/delete/{{loop.index0}}">Delete</a>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</body>
+</html>

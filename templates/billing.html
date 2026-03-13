@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>SuperPOS Billing</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+<style>
+
+body{
+background:#050505;
+color:white;
+font-family:Poppins;
+}
+
+/* LAYOUT */
+
+.pos-layout{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:30px;
+padding:40px;
+margin-left:220px;
+}
+
+/* SEARCH */
+
+.search{
+margin-bottom:20px;
+}
+
+.search input{
+width:100%;
+padding:12px;
+border-radius:8px;
+border:none;
+background:#111;
+color:white;
+}
+
+/* PRODUCT GRID */
+
+.product-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+gap:20px;
+}
+
+.product{
+background:#0f0f0f;
+padding:15px;
+border-radius:10px;
+text-align:center;
+cursor:pointer;
+border:1px solid #222;
+transition:0.3s;
+}
+
+.product:hover{
+transform:scale(1.05);
+box-shadow:0 0 15px #00e5ff50;
+}
+
+.product img{
+width:70px;
+height:70px;
+object-fit:cover;
+margin-bottom:8px;
+}
+
+/* BILL */
+
+.bill-panel{
+background:#0f0f0f;
+padding:25px;
+border-radius:12px;
+border:1px solid #222;
+}
+
+.bill-table{
+max-height:350px;
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:10px;
+border-bottom:1px solid #222;
+}
+
+.qty-btn{
+background:#222;
+padding:2px 6px;
+border-radius:4px;
+cursor:pointer;
+}
+
+/* TOTAL */
+
+.total{
+margin-top:20px;
+font-size:18px;
+}
+
+/* BUTTONS */
+
+.pay-btn{
+width:100%;
+margin-top:15px;
+padding:12px;
+background:#00e5ff;
+border:none;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.clear-btn{
+width:100%;
+margin-top:10px;
+padding:10px;
+background:#333;
+border:none;
+border-radius:8px;
+color:white;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="pos-layout">
+
+<!-- PRODUCTS -->
+
+<div>
+
+<h2>Products</h2>
+
+<div class="search">
+<input type="text" id="search" placeholder="Search product...">
+</div>
+
+<div class="product-grid">
+
+{% for p in products %}
+
+<div class="product" onclick="addItem('{{p.name}}',{{p.price}})">
+
+<img src="/static/images/{{p.image}}">
+
+<div>{{p.name}}</div>
+
+<div>₹ {{p.price}}</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+
+<!-- BILL -->
+
+<div class="bill-panel">
+
+<h2>Current Bill</h2>
+
+<div class="bill-table">
+
+<table id="billTable">
+
+<tr>
+<th>Item</th>
+<th>Qty</th>
+<th>Total</th>
+</tr>
+
+</table>
+
+</div>
+
+<div class="total">
+Subtotal: ₹ <span id="subtotal">0</span>
+</div>
+
+<div class="total">
+Tax (5%): ₹ <span id="tax">0</span>
+</div>
+
+<div class="total">
+<b>Grand Total: ₹ <span id="grandTotal">0</span></b>
+</div>
+
+<button class="pay-btn" onclick="completeSale()">Complete Sale</button>
+<button class="clear-btn" onclick="printBill()">Print Receipt</button>
+
+<button class="clear-btn" onclick="clearBill()">Clear Bill</button>
+
+</div>
+
+</div>
+
+
+<script>
+    function printBill(){
+
+let billContent = `
+<h2>SuperPOS Receipt</h2>
+<hr>
+`;
+
+bill.forEach(item => {
+
+billContent += `
+<p>${item.name} x ${item.qty} = ₹ ${item.price * item.qty}</p>
+`;
+
+});
+
+billContent += `
+<hr>
+<p><b>Total: ₹ ${document.getElementById("grandTotal").innerText}</b></p>
+`;
+
+let printWindow = window.open("", "", "width=300,height=400");
+
+printWindow.document.write(billContent);
+
+printWindow.document.close();
+
+printWindow.print();
+
+}
+function completeSale(){
+
+if(bill.length === 0){
+alert("No items in bill");
+return;
+}
+
+fetch("/complete-sale",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify(bill)
+
+})
+
+.then(res=>res.json())
+
+.then(data=>{
+
+alert("Sale completed successfully!");
+
+bill=[];
+renderBill();
+
+})
+
+}
+let bill = [];
+
+function addItem(name,price){
+
+let item = bill.find(i=>i.name===name);
+
+if(item){
+item.qty++;
+}else{
+bill.push({name,price,qty:1});
+}
+
+renderBill();
+}
+
+function renderBill(){
+
+let table = document.getElementById("billTable");
+
+table.innerHTML = `
+<tr>
+<th>Item</th>
+<th>Qty</th>
+<th>Total</th>
+</tr>
+`;
+
+let subtotal=0;
+
+bill.forEach(item=>{
+
+let total=item.price*item.qty;
+subtotal+=total;
+
+table.innerHTML += `
+<tr>
+<td>${item.name}</td>
+<td>${item.qty}</td>
+<td>₹ ${total}</td>
+</tr>
+`;
+
+});
+
+let tax=subtotal*0.05;
+let grand=subtotal+tax;
+
+document.getElementById("subtotal").innerText=subtotal;
+document.getElementById("tax").innerText=tax.toFixed(2);
+document.getElementById("grandTotal").innerText=grand.toFixed(2);
+
+}
+
+function clearBill(){
+
+bill=[];
+renderBill();
+
+}
+
+</script>
+
+</body>
+</html>

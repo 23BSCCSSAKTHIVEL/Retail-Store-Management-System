@@ -1,0 +1,299 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+/* BODY */
+
+body{
+background:#000000;
+color:white;
+overflow-x:hidden;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+width:220px;
+height:100vh;
+background:#0a0a0a;
+padding:30px 20px;
+border-right:1px solid #222;
+}
+
+.logo{
+font-size:24px;
+margin-bottom:40px;
+text-align:center;
+color:white;
+}
+
+.sidebar a{
+display:block;
+padding:12px;
+margin:8px 0;
+text-decoration:none;
+color:#888;
+border-radius:8px;
+transition:0.3s;
+}
+
+.sidebar a:hover{
+background:#111;
+color:white;
+transform:translateX(5px);
+}
+
+/* MAIN CONTENT */
+
+.main{
+margin-left:220px;
+padding:40px;
+}
+
+/* CARDS */
+
+.cards{
+display:flex;
+gap:25px;
+margin-bottom:30px;
+}
+
+.card{
+background:#0d0d0d;
+padding:25px;
+border-radius:12px;
+border:1px solid #222;
+box-shadow:0 0 20px rgba(255,255,255,0.03);
+transition:0.4s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 0 20px rgba(0,229,255,0.2);
+}
+
+/* PRODUCT GRID */
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+}
+
+.product-card{
+background:#0d0d0d;
+border-radius:12px;
+padding:20px;
+text-align:center;
+border:1px solid #222;
+transition:0.4s;
+}
+
+.product-card:hover{
+transform:translateY(-6px);
+box-shadow:0 0 20px rgba(0,229,255,0.3);
+}
+
+.product-card img{
+width:90px;
+height:90px;
+object-fit:cover;
+border-radius:10px;
+margin-bottom:10px;
+}
+
+/* BUTTONS */
+
+button,
+.product-card a{
+display:inline-block;
+margin-top:10px;
+padding:8px 15px;
+border-radius:6px;
+background:#111;
+border:1px solid #333;
+color:white;
+text-decoration:none;
+transition:0.3s;
+}
+
+button:hover,
+.product-card a:hover{
+background:#00e5ff;
+color:black;
+}
+
+/* POS GRID */
+
+.pos-layout{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:30px;
+}
+
+.product-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:20px;
+}
+
+.product{
+background:#0d0d0d;
+padding:15px;
+border-radius:10px;
+text-align:center;
+cursor:pointer;
+border:1px solid #222;
+transition:0.3s;
+}
+
+.product:hover{
+transform:scale(1.05);
+box-shadow:0 0 15px rgba(0,229,255,0.4);
+}
+
+.product img{
+width:70px;
+height:70px;
+object-fit:cover;
+}
+
+/* BILL AREA */
+
+.bill-area{
+background:#0d0d0d;
+padding:25px;
+border-radius:12px;
+border:1px solid #222;
+}
+
+.bill-table{
+max-height:350px;
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:10px;
+border-bottom:1px solid #222;
+text-align:left;
+}
+
+/* PAY BUTTON */
+
+.pay-btn{
+width:100%;
+margin-top:20px;
+padding:14px;
+background:#00e5ff;
+color:black;
+border:none;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+}
+
+.pay-btn:hover{
+box-shadow:0 0 20px #00e5ff;
+}
+/* LIVE STOCK CARD */
+
+.stock-card{
+
+margin-top:40px;
+
+background:#0f0f0f;
+
+padding:25px;
+
+border-radius:12px;
+
+border:1px solid #222;
+
+}
+
+/* TABLE */
+
+.stock-table{
+
+width:100%;
+
+border-collapse:collapse;
+
+margin-top:15px;
+
+}
+
+.stock-table th{
+
+text-align:left;
+
+padding:12px;
+
+background:#111;
+
+color:#00e5ff;
+
+}
+
+.stock-table td{
+
+padding:10px;
+
+border-bottom:1px solid #222;
+
+}
+
+/* STATUS */
+
+.low{
+
+color:#ff5252;
+
+font-weight:bold;
+
+}
+
+.ok{
+
+color:#00e676;
+
+font-weight:bold;
+
+}
+/* LOW STOCK ALERT */
+
+.alert-box{
+
+background:#2b0000;
+
+border:1px solid #ff4c4c;
+
+padding:20px;
+
+border-radius:10px;
+
+margin-bottom:25px;
+
+color:#ff8080;
+
+}
+
+.alert-box ul{
+margin-top:10px;
+}
+
+.alert-box li{
+margin-bottom:5px;
+}

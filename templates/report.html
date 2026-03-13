@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Sales Report</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+<style>
+
+body{
+background:#050505;
+color:white;
+font-family:Poppins;
+}
+
+.main{
+margin-left:220px;
+padding:40px;
+}
+
+/* REPORT CARDS */
+
+.report-cards{
+display:flex;
+gap:30px;
+margin-bottom:40px;
+}
+
+.report-card{
+flex:1;
+background:#0f0f0f;
+padding:25px;
+border-radius:12px;
+border:1px solid #222;
+text-align:center;
+}
+
+.report-card h2{
+color:#aaa;
+margin-bottom:10px;
+}
+
+.report-card p{
+font-size:24px;
+font-weight:bold;
+}
+
+/* TABLE */
+
+table{
+width:100%;
+border-collapse:collapse;
+background:#0f0f0f;
+border-radius:10px;
+overflow:hidden;
+}
+
+th,td{
+padding:12px;
+border-bottom:1px solid #222;
+text-align:left;
+}
+
+th{
+background:#111;
+color:#00e5ff;
+}
+
+tr:hover{
+background:#111;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h2 class="logo">SuperPOS</h2>
+
+<a href="/dashboard">Dashboard</a>
+<a href="/add">Add Product</a>
+<a href="/view">Products</a>
+<a href="/billing">Billing</a>
+<a href="/report">Sales Report</a>
+
+</div>
+
+
+<div class="main">
+
+<h1>Daily Sales Report</h1>
+
+<div class="report-cards">
+
+<div class="report-card">
+<h2>Total Orders</h2>
+<p>{{total_orders}}</p>
+</div>
+
+<div class="report-card">
+<h2>Total Sales</h2>
+<p>₹ {{total_sales}}</p>
+</div>
+
+</div>
+
+<table>
+
+<tr>
+<th>Product</th>
+<th>Price</th>
+<th>Quantity</th>
+<th>Total</th>
+</tr>
+
+{% for s in sales %}
+
+<tr>
+<td>{{s.product}}</td>
+<td>{{s.price}}</td>
+<td>{{s.quantity}}</td>
+<td>{{s.total}}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</body>
+</html>
